@@ -12,7 +12,7 @@
 #In production environment we cannot port map like -p 8000:3000, instead we just write the port number that we want to expose in the dockerfile. In this case we are exposing port 80. 
 #And our production deployment like AWS ECS will take care of the port mapping and routing the traffic to the container.
  from nginx:alpine
- Expose 3000
+ expose 3000
  #This activity is done to override the default port 80 of nginx with our port 3000. This is done because our react app is running on port 3000 and we want to serve it on the same port.
  copy ./nginx/default.conf /etc/nginx/conf.d/default.conf
  copy --from=builder /app/build /usr/share/nginx/html
