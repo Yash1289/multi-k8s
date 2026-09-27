@@ -1,0 +1,41 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: postgres-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: postgres
+  template:
+    metadata:
+      labels:
+        app: postgres
+    spec:
+      # This part helps us get access to storage to this pod
+      volumes:
+        - name: postgres-storage
+          persistentVolumeClaim:
+            claimName: database-persistent-volume-claim
+      containers:
+        - name: postgres
+          image: postgres
+          ports:
+            - containerPort: 5432
+          # Now that we have got access to storage or PV attached to this pod using volumeMounts we will define how to use it
+          volumeMounts:
+            - name: postgres-storage
+              # This defines where in the container we want access to the volume we just mounted.
+              mountPath: /var/lib/postgresql
+              # This defines the sub folder created on the hard drive or cloud storage under which we will find all the data postgres will now store.
+              subPath: postgres
+          env:
+            - name: POSTGRES_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: pgpassword
+                  key: PGPASSWORD
+
+
+
+          

@@ -1,0 +1,16 @@
+apiVersion : v1
+kind: PersistentVolumeClaim
+metadata:
+  name: database-persistent-volume-claim
+spec:
+  accessModes:
+    # ReadWriteOnce as an access mode means any one single node can read and write to it
+    # We also have ReadOnlyMany which allows multiple node to read from it and ReadWriteMany which allows multiples nodes to both read and write to it.
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 2Gi
+  # Here we could have defined one other property by name of storageClassName which defines where this storage is to
+  # be provisioned from , in local system its simply a slic of our harddrive and in cloud system it will set to default
+  # storage provider but we can use this property in case we want any other non default option. 
+  # storageClassName:

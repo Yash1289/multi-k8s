@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: redis-cluster-ip-service
+spec:
+  type: ClusterIP
+  selector: 
+    app: redis
+  ports:
+    ## Here port is what is exposed to the outside world like for other pods to communicate with this service and targetPort is the port on which the container is running inside the pod.
+    ## So here other pods will communicate with this service on port 6379 and the service will forward the request to the pod on port 6379 where the container is running. 
+    - port: 6379
+      targetPort: 6379
